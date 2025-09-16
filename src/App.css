@@ -137,3 +137,11 @@
         object-fit: cover;
     }
 }
+
+
+.fc-toolbar-title {
+  color: black; /* Rəngi qara edir */
+  font-size: 30px; /* Şrift ölçüsünü böyüdür */
+  font-weight: 600; /* Şrifti qalın edir */
+  font-family: 'Poppins', sans-serif;
+}
