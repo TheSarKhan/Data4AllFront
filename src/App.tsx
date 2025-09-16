@@ -75,6 +75,7 @@ import OpenInfoAgriculture from "./pages/OpenInfoAgriculture.tsx";
 import OpenInfoEconomicMap from "./pages/OpenInfoEconomicMap.tsx";
 import OpenInfoStaticCalendar from "./pages/OpenInfoStaticCalendar.tsx";
 import OpenInfoDataPolicy from "./pages/OpenInfoDataPolicy.tsx";
+import OpenInfoDataRequest from "./pages/OpenInfoDataRequest.tsx";
 
 
 const MainLayout = () => {
@@ -159,7 +160,7 @@ function App() {
             <Route path='economic_map' element={<OpenInfoEconomicMap/>}/> 
             <Route path='statistical_calendar' element={<OpenInfoStaticCalendar/>}/> 
             <Route path='open_data_policy' element={<OpenInfoDataPolicy/>}/> 
-            <Route path='data_request' element={<OpenInfoDataPolicy/>}/> 
+            <Route path='data_request' element={<OpenInfoDataRequest/>}/> 
           </Route>
           
 
