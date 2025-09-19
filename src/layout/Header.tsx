@@ -1,30 +1,31 @@
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { FiMenu, FiSearch, FiX } from 'react-icons/fi';
+import { FiMenu, FiSearch, FiX, FiBell } from 'react-icons/fi';
 import { Link, NavLink } from 'react-router-dom';
 import i18n from '@/utils/i18n/i18n';
 import "../../src/assets/sass/header.scss";
 import { InputBase } from '@mui/material';
+import { useUser } from '@/context/UserContext';
 
 const Header = () => {
     const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
-
     const [searchQuery, setSearchQuery] = useState('');
-    const [selectedLanguage, setSelectedLanguage] = useState('az'); // Default dil Azərbaycan
+    const [selectedLanguage, setSelectedLanguage] = useState('az');
+    
+    const { state: userState } = useUser();
+    const isLoggedIn = userState.isLogged;
+    const user = userState.user;
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(e.target.value);
     };
-
 
     const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const newLanguage = e.target.value;
         setSelectedLanguage(newLanguage);
         i18n.changeLanguage(newLanguage);
     };
-
-
 
     const checkMobile = () => {
         setIsMobile(window.innerWidth <= 1000);
@@ -53,8 +54,6 @@ const Header = () => {
                             </Link>
                         </div>
 
-
-
                         <div className="relative flex items-center group">
                             <InputBase
                                 value={searchQuery}
@@ -71,7 +70,7 @@ const Header = () => {
                                     py: 1.5,
                                     transition: 'all 0.2s',
                                     '& input::placeholder': {
-                                        color: 'white', // Placeholder ağ rəngdə
+                                        color: 'white',
                                         opacity: 1,
                                     },
                                     '&:hover': {
@@ -115,11 +114,40 @@ const Header = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div>
-                                <Link to={"/login"}>
-                                    <Button className="login-btn cursor-pointer">{i18n.t('login')}</Button>
-                                </Link>
-                            </div>
+
+                            {isLoggedIn ? (
+                                // Giriş yapmış kullanıcı için
+                                <div className="flex items-center gap-4">
+                                    {/* Bildirim çanı */}
+                                    <div className="relative cursor-pointer">
+                                        <FiBell className="text-2xl text-white" />
+                                        <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+                                            3
+                                        </span>
+                                    </div>
+                                    
+                                    {/* Profil resmi */}
+                                    <Link to="/profile" className="flex items-center gap-2 cursor-pointer">
+                                        <div className="h-10 w-10 rounded-full bg-cover bg-center border-2 border-white"
+                                            style={{ 
+                                                backgroundImage: user?.profileImage 
+                                                    ? `url(${user.profileImage})` 
+                                                    : 'url(/default-avatar.png)' 
+                                            }}
+                                        >
+                                        </div>
+                                        {/* <span className="text-white font-medium">
+                                            {user?.firstName}
+                                        </span> */}
+                                    </Link>
+                                </div>
+                            ) : (
+                                <div>
+                                    <Link to={"/login"}>
+                                        <Button className="login-btn cursor-pointer">{i18n.t('login')}</Button>
+                                    </Link>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -134,9 +162,38 @@ const Header = () => {
                                 <img src="/logo.svg" alt="Logo" className="logo" />
                             </Link>
                         </div>
-                        <button className="menu-icon" onClick={toggleMobileNav}>
-                            {isMobileNavOpen ? <FiX size={24} /> : <FiMenu size={24} />}
-                        </button>
+                        
+                        {isLoggedIn ? (
+                            // Mobile - Giriş yapmış kullanıcı
+                            <div className="flex items-center gap-3">
+                                <div className="relative cursor-pointer">
+                                    <FiBell className="text-xl text-white" />
+                                    <span className="absolute -top-1 -right-1 flex h-3 w-3 items-center justify-center rounded-full bg-red-500 text-[10px] text-white">
+                                        3
+                                    </span>
+                                </div>
+                                
+                                <Link to="/profile" className="cursor-pointer">
+                                    <div className="h-8 w-8 rounded-full bg-cover bg-center border-2 border-white"
+                                        style={{ 
+                                            backgroundImage: user?.profileImage 
+                                                ? `url(${user.profileImage})` 
+                                                : 'url(/default-avatar.png)' 
+                                        }}
+                                    >
+                                    </div>
+                                </Link>
+                                
+                                <button className="menu-icon" onClick={toggleMobileNav}>
+                                    {isMobileNavOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+                                </button>
+                            </div>
+                        ) : (
+                            // Mobile - Giriş yapmamış kullanıcı
+                            <button className="menu-icon" onClick={toggleMobileNav}>
+                                {isMobileNavOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+                            </button>
+                        )}
                     </div>
 
                     <div className={`mobile-nav ${isMobileNavOpen ? 'open' : ''}`}>
@@ -161,13 +218,28 @@ const Header = () => {
                                 {i18n.t("help")}
                             </NavLink>
 
-                            <NavLink to="/login" onClick={toggleMobileNav} className='btn'>
-                                <h1>{i18n.t("login")}</h1>
-                            </NavLink>
-
-                            <NavLink to="/register" onClick={toggleMobileNav} className='btn'>
-                                <h1>{i18n.t("register")}</h1>
-                            </NavLink>
+                            {isLoggedIn ? (
+                                <>
+                                    <NavLink to="/profile" onClick={toggleMobileNav} className='btn'>
+                                        <h1>{i18n.t("profile")}</h1>
+                                    </NavLink>
+                                    <NavLink to="/notifications" onClick={toggleMobileNav} className='btn'>
+                                        <h1>{i18n.t("notifications")}</h1>
+                                    </NavLink>
+                                    <NavLink to="/logout" onClick={toggleMobileNav} className='btn'>
+                                        <h1>{i18n.t("logout")}</h1>
+                                    </NavLink>
+                                </>
+                            ) : (
+                                <>
+                                    <NavLink to="/login" onClick={toggleMobileNav} className='btn'>
+                                        <h1>{i18n.t("login")}</h1>
+                                    </NavLink>
+                                    <NavLink to="/register" onClick={toggleMobileNav} className='btn'>
+                                        <h1>{i18n.t("register")}</h1>
+                                    </NavLink>
+                                </>
+                            )}
                         </nav>
                     </div>
                 </>

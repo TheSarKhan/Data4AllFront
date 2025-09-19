@@ -5,7 +5,7 @@ const REFRESH_KEY = 'refresh-token';
 
 export const setToken = (token: string): void => {
     Cookies.set(TOKEN_KEY, token, {
-        expires: 10 / (24 * 60)
+        expires: 7
     });
 };
 export const setTokenRefresh = (token: string): void => {
