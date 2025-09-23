@@ -41,10 +41,10 @@ import ProfileSettings from "./pages/ProfileSettings";
 
 import InternationalDemonstrators from "./pages/InternationalDemonstrators";
 
-import OpenInfoAllData from './pages/OpenInfoAllData.tsx'
-import OpenInfoPages from './pages/OpenInfoPages.tsx'
+import OpenInfoAllData from "./pages/OpenInfoAllData.tsx";
+import OpenInfoPages from "./pages/OpenInfoPages.tsx";
 
-import OpenInfobase from "./pages/OpenInfobase";
+import OpenDataBase from "./pages/OpenDataBase.tsx";
 
 import Subscriptions from "./pages/Subscriptions";
 import SubscriptionsInfo from "./pages/SubscriptionsInfo";
@@ -76,7 +76,8 @@ import OpenInfoEconomicMap from "./pages/OpenInfoEconomicMap.tsx";
 import OpenInfoStaticCalendar from "./pages/OpenInfoStaticCalendar.tsx";
 import OpenInfoDataPolicy from "./pages/OpenInfoDataPolicy.tsx";
 import OpenInfoDataRequest from "./pages/OpenInfoDataRequest.tsx";
-
+import OpenDataBaseLayout from "./layout/OpenDataBaseLayout.tsx";
+import All from "./pages/OpenDataBase/All.tsx";
 
 const MainLayout = () => {
   const location = useLocation();
@@ -122,11 +123,20 @@ function App() {
       {/* Main layout with nested routes */}
       <Route element={<MainLayout />}>
         <Route index element={<Home />} />
+
         <Route path="/about" element={<About />} />
         <Route path="/about" element={<AboutLayout />}>
           <Route path="purpose" element={<Purpose />}></Route>
           <Route path="mission" element={<Mission />}></Route>
         </Route>
+
+        {/* Routing might be changed. Depends on backend */}
+        <Route path="/open-database" element={<OpenDataBase />} />
+        <Route path="/open-database" element={<OpenDataBaseLayout />}>
+          <Route path="all" element={<All />}></Route>
+          <Route path="macro&micro" element={<Mission />}></Route>
+        </Route>
+
         <Route path="/analytics" element={<Analytics />}>
           <Route path="economic_indicators" element={<EconomicIndicators />}>
             <Route path="macro" element={<MacroEconomic />} />
@@ -148,24 +158,29 @@ function App() {
             <Route path="e_gov" element={<EGovernmentDevelopmentIndex />} />
           </Route>
 
-          
-          <Route path="international_demonstrators" element={<InternationalDemonstrators />} />
-          <Route path='open_info' element={<OpenInfoPages/>}>
-            <Route path='all_data' element={<OpenInfoAllData/>}/>
-            <Route path='health'  element={<OpenInfoHealth/>}/> 
-            <Route path='tourism' element={<OpenInfoTourism/>}/> 
-            <Route path='energy' element={<OpenInfoEnergy/>}/> 
-            <Route path='demographic_indicators' element={<OpenInfoDemographicIndicators/>}/> 
-            <Route path='agriculture' element={<OpenInfoAgriculture/>}/> 
-            <Route path='economic_map' element={<OpenInfoEconomicMap/>}/> 
-            <Route path='statistical_calendar' element={<OpenInfoStaticCalendar/>}/> 
-            <Route path='open_data_policy' element={<OpenInfoDataPolicy/>}/> 
-            <Route path='data_request' element={<OpenInfoDataRequest/>}/> 
+          <Route
+            path="international_demonstrators"
+            element={<InternationalDemonstrators />}
+          />
+          <Route path="open-database" element={<OpenDataBase />}>
+            <Route path="all_data" element={<OpenInfoAllData />} />
+            <Route path="health" element={<OpenInfoHealth />} />
+            <Route path="tourism" element={<OpenInfoTourism />} />
+            <Route path="energy" element={<OpenInfoEnergy />} />
+            <Route
+              path="demographic_indicators"
+              element={<OpenInfoDemographicIndicators />}
+            />
+            <Route path="agriculture" element={<OpenInfoAgriculture />} />
+            <Route path="economic_map" element={<OpenInfoEconomicMap />} />
+            <Route
+              path="statistical_calendar"
+              element={<OpenInfoStaticCalendar />}
+            />
+            <Route path="open_data_policy" element={<OpenInfoDataPolicy />} />
+            <Route path="data_request" element={<OpenInfoDataRequest />} />
           </Route>
-          
-
         </Route>
-          <Route path="open_infobase" element={<OpenInfobase />} />
 
         <Route path="/report" element={<Report />} />
         <Route path="/report/:type/:id" element={<ReportDetails />} />

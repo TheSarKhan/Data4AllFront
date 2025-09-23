@@ -20,7 +20,7 @@ const Analytics = () => {
           <div className="absolute top-[60px] md:right-10 grid grid-cols-1 md:grid-cols-2 grid-rows-2 gap-6 w-full lg:max-w-[800px] items-center justify-center p-10 md:p-[60px]">
             <LinearButton title={t('analytic.indicators')} pageRouter="economic_indicators" />
             <LinearButton title={t('analytic.demonstrators')} pageRouter="international_demonstrators" />
-            <LinearButton title={t('analytic.infobase')} pageRouter="open_info" />
+            <LinearButton title={t('analytic.infobase')} pageRouter="/open-database" />
           </div>
         ) : (
           <AnalyticsSidebar />
