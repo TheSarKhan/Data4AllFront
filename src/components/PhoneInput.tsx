@@ -1,18 +1,22 @@
 import 'react-phone-number-input/style.css';
-import { useState } from 'react';
 import PhoneInput from 'react-phone-number-input';
-import '../../src/assets/sass/phoneInput.scss'; // Import CSS for styling
+import '../../src/assets/sass/phoneInput.scss';
+import { E164Number } from 'libphonenumber-js/core';
 
-const CustomPhoneInput = () => {
-    const [value, setValue] = useState<string | undefined>();
 
+interface CustomPhoneInputProps {
+    value?: E164Number | undefined;
+    onChange: (value: E164Number | undefined) => void;
+}
+
+const CustomPhoneInput = ({ value, onChange }: CustomPhoneInputProps) => {
     return (
         <div className="phone-input-container">
             <PhoneInput
                 international
                 defaultCountry="AZ"
                 value={value}
-                onChange={setValue}
+                onChange={onChange}
                 className="custom-phone-input"
             />
         </div>

@@ -76,6 +76,10 @@ import OpenInfoEconomicMap from "./pages/OpenInfoEconomicMap.tsx";
 import OpenInfoStaticCalendar from "./pages/OpenInfoStaticCalendar.tsx";
 import OpenInfoDataPolicy from "./pages/OpenInfoDataPolicy.tsx";
 import OpenInfoDataRequest from "./pages/OpenInfoDataRequest.tsx";
+import { useUser } from "./context/UserContext.tsx";
+import { useEffect } from "react";
+import { getTokenRefresh } from "./utils/token.ts";
+import axios from "axios";
 import OpenDataBaseLayout from "./layout/OpenDataBaseLayout.tsx";
 import All from "./pages/OpenDataBase/All.tsx";
 
@@ -107,6 +111,36 @@ const MainLayout = () => {
 };
 
 function App() {
+  const { setUser } = useUser();
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const refreshToken = getTokenRefresh();
+        if (!refreshToken) {
+          console.error("No refresh token available");
+          return;
+        }
+
+        const response = await axios.get(
+          `${import.meta.env.VITE_BASE_URL}/profile`,
+          {
+            headers: {
+              Authorization: `Bearer ${refreshToken}`,
+            },
+          }
+        );
+
+        setUser(response.data);
+      } catch (error) {
+
+        console.error("Failed to fetch profile:", error);
+      }
+    };
+
+    fetchProfile();
+  }, []);
+
   return (
     <Routes>
       {/* Auth routes without layout */}
@@ -158,29 +192,24 @@ function App() {
             <Route path="e_gov" element={<EGovernmentDevelopmentIndex />} />
           </Route>
 
-          <Route
-            path="international_demonstrators"
-            element={<InternationalDemonstrators />}
-          />
-          <Route path="open-database" element={<OpenDataBase />}>
-            <Route path="all_data" element={<OpenInfoAllData />} />
-            <Route path="health" element={<OpenInfoHealth />} />
-            <Route path="tourism" element={<OpenInfoTourism />} />
-            <Route path="energy" element={<OpenInfoEnergy />} />
-            <Route
-              path="demographic_indicators"
-              element={<OpenInfoDemographicIndicators />}
-            />
-            <Route path="agriculture" element={<OpenInfoAgriculture />} />
-            <Route path="economic_map" element={<OpenInfoEconomicMap />} />
-            <Route
-              path="statistical_calendar"
-              element={<OpenInfoStaticCalendar />}
-            />
-            <Route path="open_data_policy" element={<OpenInfoDataPolicy />} />
-            <Route path="data_request" element={<OpenInfoDataRequest />} />
+
+          <Route path="international_demonstrators" element={<InternationalDemonstrators />} />
+          <Route path='open_info' element={<OpenInfoPages />}>
+            <Route path='all_data' element={<OpenInfoAllData />} />
+            <Route path='health' element={<OpenInfoHealth />} />
+            <Route path='tourism' element={<OpenInfoTourism />} />
+            <Route path='energy' element={<OpenInfoEnergy />} />
+            <Route path='demographic_indicators' element={<OpenInfoDemographicIndicators />} />
+            <Route path='agriculture' element={<OpenInfoAgriculture />} />
+            <Route path='economic_map' element={<OpenInfoEconomicMap />} />
+            <Route path='statistical_calendar' element={<OpenInfoStaticCalendar />} />
+            <Route path='open_data_policy' element={<OpenInfoDataPolicy />} />
+            <Route path='data_request' element={<OpenInfoDataRequest />} />
           </Route>
+
+
         </Route>
+        <Route path="open_infobase" element={<OpenInfobase />} />
 
         <Route path="/report" element={<Report />} />
         <Route path="/report/:type/:id" element={<ReportDetails />} />
