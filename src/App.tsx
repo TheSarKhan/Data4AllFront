@@ -209,7 +209,7 @@ function App() {
 
 
         </Route>
-        <Route path="open_infobase" element={<OpenInfobase />} />
+        <Route path="open_infobase" element={<OpenDataBase />} />
 
         <Route path="/report" element={<Report />} />
         <Route path="/report/:type/:id" element={<ReportDetails />} />
