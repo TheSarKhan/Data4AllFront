@@ -41,10 +41,10 @@ import ProfileSettings from "./pages/ProfileSettings";
 
 import InternationalDemonstrators from "./pages/InternationalDemonstrators";
 
-import OpenInfoAllData from './pages/OpenInfoAllData.tsx'
-import OpenInfoPages from './pages/OpenInfoPages.tsx'
+import OpenInfoAllData from "./pages/OpenInfoAllData.tsx";
+import OpenInfoPages from "./pages/OpenInfoPages.tsx";
 
-import OpenInfobase from "./pages/OpenInfobase";
+import OpenDataBase from "./pages/OpenDataBase.tsx";
 
 import Subscriptions from "./pages/Subscriptions";
 import SubscriptionsInfo from "./pages/SubscriptionsInfo";
@@ -80,7 +80,8 @@ import { useUser } from "./context/UserContext.tsx";
 import { useEffect } from "react";
 import { getTokenRefresh } from "./utils/token.ts";
 import axios from "axios";
-
+import OpenDataBaseLayout from "./layout/OpenDataBaseLayout.tsx";
+import All from "./pages/OpenDataBase/All.tsx";
 
 const MainLayout = () => {
   const location = useLocation();
@@ -156,11 +157,20 @@ function App() {
       {/* Main layout with nested routes */}
       <Route element={<MainLayout />}>
         <Route index element={<Home />} />
+
         <Route path="/about" element={<About />} />
         <Route path="/about" element={<AboutLayout />}>
           <Route path="purpose" element={<Purpose />}></Route>
           <Route path="mission" element={<Mission />}></Route>
         </Route>
+
+        {/* Routing might be changed. Depends on backend */}
+        <Route path="/open-database" element={<OpenDataBase />} />
+        <Route path="/open-database" element={<OpenDataBaseLayout />}>
+          <Route path="all" element={<All />}></Route>
+          <Route path="macro&micro" element={<Mission />}></Route>
+        </Route>
+
         <Route path="/analytics" element={<Analytics />}>
           <Route path="economic_indicators" element={<EconomicIndicators />}>
             <Route path="macro" element={<MacroEconomic />} />
@@ -199,7 +209,7 @@ function App() {
 
 
         </Route>
-        <Route path="open_infobase" element={<OpenInfobase />} />
+        <Route path="open_infobase" element={<OpenDataBase />} />
 
         <Route path="/report" element={<Report />} />
         <Route path="/report/:type/:id" element={<ReportDetails />} />
