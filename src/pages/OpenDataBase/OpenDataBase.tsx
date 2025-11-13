@@ -6,8 +6,10 @@ import { SearchIcon } from "lucide-react";
 import LinearButton from "@/components/ui/linearButton";
 import OpenInfoDataNavCard from "@/components/ui/OpenInfoDataNavCard";
 import WideLinearButton from "@/components/ui/WideLinearButton";
+import { useTranslation } from "react-i18next";
 
 const OpenDataBase = () => {
+  const { t } = useTranslation();
   return (
     <>
       <div className="video-background">
@@ -35,28 +37,57 @@ const OpenDataBase = () => {
           </form>
           <div className="flex gap-5 lg:pb-14 pt-2 text-white">
             <h4 className="flex items-center gap-2">
-              {" "}
               <GoDatabase /> 343 məlumat dəstləri dərc edilmişdir
             </h4>
             <h4 className="flex items-center gap-2">
-              {" "}
               <PiUsers /> 232 nəşriyyatçılar
             </h4>
           </div>
 
-          <UploadNewInfoBtn />
+          <UploadNewInfoBtn to={"select-category"} />
         </div>
 
         <div className="flex gap-6 mt-6">
-          {/* Routing might be changed. Depends on backend */}
-          <OpenInfoDataNavCard iconName="DataBase" to="all" title="Bütün datalar" />
-          <OpenInfoDataNavCard iconName="BarChart" to="all" title="Bütün datalar" />
-          <OpenInfoDataNavCard iconName="Shiled" to="all" title="Bütün datalar" />
-          <OpenInfoDataNavCard iconName="Plane" to="all" title="Bütün datalar" />
-          <OpenInfoDataNavCard iconName="Lightning" to="all" title="Bütün datalar" />
-          <OpenInfoDataNavCard iconName="PeopleGroup" to="all" title="Bütün datalar" />
-          <OpenInfoDataNavCard iconName="Agriculture" to="all" title="Bütün datalar" />
-          <OpenInfoDataNavCard iconName="Scales" to="all" title="Bütün datalar" />
+          <OpenInfoDataNavCard
+            iconName="DataBase"
+            to="all"
+            title={t("analytic.all")}
+          />
+          <OpenInfoDataNavCard
+            iconName="BarChart"
+            to="macroandmicro"
+            title={t("analytic.macroandmicro")}
+          />
+          <OpenInfoDataNavCard
+            iconName="Shiled"
+            to="health"
+            title={t("analytic.health")}
+          />
+          <OpenInfoDataNavCard
+            iconName="Plane"
+            to="tourism"
+            title={t("analytic.tourism")}
+          />
+          <OpenInfoDataNavCard
+            iconName="Lightning"
+            to="energy"
+            title={t("analytic.energy")}
+          />
+          <OpenInfoDataNavCard
+            iconName="PeopleGroup"
+            to="demographic"
+            title={t("analytic.demographic")}
+          />
+          <OpenInfoDataNavCard
+            iconName="Agriculture"
+            to="agriculture"
+            title={t("analytic.agriculture")}
+          />
+          <OpenInfoDataNavCard
+            iconName="Scales"
+            to="crime"
+            title={t("analytic.crime")}
+          />
         </div>
         <div className="mt-6">
           <div className="flex justify-between w-full gap-6">
@@ -66,7 +97,7 @@ const OpenDataBase = () => {
               pageRouter="economic_indicators"
             />
             <WideLinearButton
-              title="Azərbaycan Açıq Məlumat Siyasəti"
+              title="Statistik təqvim"
               pageRouter="economic_indicators"
             />
           </div>
