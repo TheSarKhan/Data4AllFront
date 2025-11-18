@@ -12,15 +12,23 @@ export default function DataSets() {
   const [datasets, setDatasets] = useState([]);
 
   useEffect(() => {
-    api
-      .get(`dataset/get/all/${category}`, {
-        params: {
-          offset: 0,
-        },
-      })
-      .then((response) => response.data)
-      .then((data) => setDatasets(data.content));
+    if (category === "all") {
+      api
+        .get(`dataset/get/all`)
+        .then((response) => response.data)
+        .then((data) => setDatasets(data));
+    } else {
+      api
+        .get(`dataset/get/all/${category}`, {
+          params: {
+            offset: 0,
+          },
+        })
+        .then((response) => response.data)
+        .then((data) => setDatasets(data.content));
+    }
   }, [category]);
+
   console.log(datasets);
   return (
     <div className="px-4 lg:px-8 xl:px-10 py-6 flex items-center">
